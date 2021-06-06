@@ -1,62 +1,79 @@
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import { SyncOutlined } from "@ant-design/icons";
 
 const Register = () => {
-        const [name, setName] = useState('');
-        const [email, setEmail]= useState('');
-        const [password, setPassword] = useState('');
+  const [name, setName] = useState("Evo Killa");
+  const [email, setEmail] = useState("evo101@gmail.com");
+  const [password, setPassword] = useState("12345");
+  const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async(e) => {
-        e.preventDefault();
-        //console.log({name, email, password});
-        const { data } = await axios.post(`http://localhost:8000/api/register`, {
-            name, 
-            email, 
-            password,
-        });
-        console.log('REGISTERED RESPONSE', data);
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // console.table({ name, email, password });
+    try {
+      setLoading(true);
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_API}/register`,
+        {
+          name,
+          email,
+          password,
+        }
+      );
+      // console.log("REGISTER RESPONSE", data);
+      toast.success("Registration successful. Please login.");
+      setLoading(false);
+    } catch (err) {
+      toast.error(err.response.data);
+      setLoading(false);
+    }
+  };
+  return (
+    <>
+      <h1 className="jumbotron text-center bg-info square">Register</h1>
 
-    return (
-        <> 
-            <h1 className="jumbotron text-center bg-info square">Register</h1>
-            <div page-container-Register>
-            <div className='container col-md-4 offset-md-4 pd-5'>
-                <form onSubmit={handleSubmit}>
-                    
-                    <input 
-                    type="name" 
-                    className='form-control mb-4 p-4' 
-                    value={name} 
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder='Enter Legal Name' 
-                    required
-                    />
+      <div className="container col-md-4 offset-md-4 pb-5">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            className="form-control mb-4 p-4"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter name"
+            required
+          />
 
-                    <input 
-                    type="email" 
-                    className='form-control mb-4 p-4' 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder='Enter Valid Email' 
-                    required
-                    />
+          <input
+            type="email"
+            className="form-control mb-4 p-4"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email"
+            required
+          />
 
-                    <input 
-                    type="password" 
-                    className='form-control mb-4 p-4' 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder='Enter Proper Password' 
-                    required
-                    />   
+          <input
+            type="password"
+            className="form-control mb-4 p-4"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter password"
+            required
+          />
 
-                    <button type='submit' className='button btn-block btn-info p-2'>Submit</button>   
-                </form>
-            </div>
-            </div>
-        </>      
-    );
+          <button
+            type="submit"
+            className="btn btn-block btn-info"
+            disabled={!name || !email || !password || loading}
+          >
+            {loading ? <SyncOutlined spin /> : "Submit"}
+          </button>
+        </form>
+      </div>
+    </>
+  );
 };
 
 export default Register;
