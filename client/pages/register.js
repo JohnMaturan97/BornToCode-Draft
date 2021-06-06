@@ -2,11 +2,12 @@ import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
+import Link from 'next/link';
 
 const Register = () => {
   const [name, setName] = useState("Evo Killa");
   const [email, setEmail] = useState("evo101@gmail.com");
-  const [password, setPassword] = useState("12345");
+  const [password, setPassword] = useState("1234567");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -14,14 +15,11 @@ const Register = () => {
     // console.table({ name, email, password });
     try {
       setLoading(true);
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/register`,
-        {
+      const { data } = await axios.post(`/api/register`,{
           name,
           email,
           password,
-        }
-      );
+        });
       // console.log("REGISTER RESPONSE", data);
       toast.success("Registration successful. Please login.");
       setLoading(false);
@@ -32,7 +30,7 @@ const Register = () => {
   };
   return (
     <>
-      <h1 className="jumbotron text-center bg-info square">Register</h1>
+      <h1 className="jumbotron text-center bg-info square"></h1>
 
       <div className="container col-md-4 offset-md-4 pb-5">
         <form onSubmit={handleSubmit}>
@@ -71,6 +69,13 @@ const Register = () => {
             {loading ? <SyncOutlined spin /> : "Submit"}
           </button>
         </form>
+
+        <p className="text-center p-3">
+          Already Registered? Click Here! { " " }
+          <Link href="/login"> 
+          <a>Login</a>
+          </Link>
+        </p>
       </div>
     </>
   );

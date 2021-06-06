@@ -16,8 +16,8 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true,
   })
-  .then(() => console.log("**DB CONNECTED**"))
-  .catch((err) => console.log("DB CONNECTION ERR => ", err));
+  .then(() => console.log("** Database Connected **"))
+  .catch((err) => console.log("Database Failed => ", err));
 
 // apply middlewares
 app.use(cors());

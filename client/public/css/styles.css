@@ -4,9 +4,9 @@
 }
 
 .jumbotron { 
-        background-image: url("https://img.freepik.com/free-photo/top-view-dark-stylish-workplace-with-smartphone-office-supplies_67155-2963.jpg?size=626&ext=jpg");
+        background-image: url("https://t3.ftcdn.net/jpg/02/96/19/96/360_F_296199640_u386oRVazzYoeSp3XNhDdQpMpol2nsNX.jpg");
         /*background-repeat: no-repeat;*/
         background-attachment: fixed;
-        background-position: justify-content;
-      }
+        background-position: center;
+}
     
