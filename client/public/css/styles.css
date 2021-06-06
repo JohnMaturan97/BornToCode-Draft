@@ -1,0 +1,12 @@
+/* import the necessary Bootstrap files */
+.square {
+    border-radius: 0px;
+}
+
+.jumbotron { 
+        background-image: url("https://img.freepik.com/free-photo/top-view-dark-stylish-workplace-with-smartphone-office-supplies_67155-2963.jpg?size=626&ext=jpg");
+        /*background-repeat: no-repeat;*/
+        background-attachment: fixed;
+        background-position: justify-content;
+      }
+    
