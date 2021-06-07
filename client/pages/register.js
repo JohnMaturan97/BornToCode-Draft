@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState} from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
@@ -28,6 +28,7 @@ const Register = () => {
       setLoading(false);
     }
   };
+  
   return (
     <>
       <h1 className="jumbotron text-center bg-info square"></h1>
