@@ -1,34 +1,47 @@
-import { useState} from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
-import Link from 'next/link';
+import Link from "next/link";
+import { Context } from "../context";
+import { useRouter } from "next/router";
+import user from "../../server/models/user";
 
 const Register = () => {
-  const [name, setName] = useState("Evo Killa");
+  const [name, setName] = useState("evo");
   const [email, setEmail] = useState("evo101@gmail.com");
   const [password, setPassword] = useState("1234567");
   const [loading, setLoading] = useState(false);
+
+  const {
+    state: { user },
+  } = useContext(Context);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user !== null) router.push("/");
+  }, [user]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // console.table({ name, email, password });
     try {
       setLoading(true);
-      const { data } = await axios.post(`/api/register`,{
-          name,
-          email,
-          password,
-        });
+      const { data } = await axios.post(`/api/register`, {
+        name,
+        email,
+        password,
+      });
       // console.log("REGISTER RESPONSE", data);
-      toast.success("Registration successful. Please login.");
+      toast.success("Registration Successful. Please login!");
       setLoading(false);
     } catch (err) {
       toast.error(err.response.data);
       setLoading(false);
     }
   };
-  
+
   return (
     <>
       <h1 className="jumbotron text-center bg-info square"></h1>

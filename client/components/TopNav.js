@@ -8,13 +8,15 @@ import {
   ClusterOutlined,
   LogoutOutlined,
   UserAddOutlined,
+  SketchOutlined,
+  BarsOutlined,
 } from "@ant-design/icons";
 import { Context } from "../context";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 
-const { Item, SubMenu } = Menu;
+const { Item, SubMenu,ItemGroup } = Menu;
 
 const TopNav = () => {
   const [current, setCurrent] = useState("");
@@ -51,18 +53,9 @@ const TopNav = () => {
       {user === null && (
         <>
           <Item
-            key="/login"
-            onClick={(e) => setCurrent(e.key)}
-            icon={<CoffeeOutlined />}
-          >
-            <Link href="/login">
-              <a>Login</a>
-            </Link>
-          </Item>
-
-          <Item
             key="/register"
             onClick={(e) => setCurrent(e.key)}
+            className="float-right"
             icon={<UserAddOutlined />}
           >
             <Link href="/register">
@@ -70,38 +63,55 @@ const TopNav = () => {
             </Link>
           </Item>
 
+          <Item
+            key="/login"
+            onClick={(e) => setCurrent(e.key)}
+            className="float-right"
+            icon={<CoffeeOutlined />}
+          >
+            <Link href="/login">
+              <a>Login</a>
+            </Link>
+          </Item>
         </>
       )}
 
       {user !== null && (
-  
         <SubMenu
-          icon={<ClusterOutlined/>} 
+          icon={<BarsOutlined/>}
           title={user && user.name}
           className="float-right"
-        > 
-          <Item onClick={logout} className="float-center"
-          icon={<LogoutOutlined/>}
+        >
+          <ItemGroup>
+            <Item key="/user" icon={<ClusterOutlined />}>
+              <Link href="/user">
+                <a>DashBoard</a>
+              </Link>
+            </Item>
+
+          <Item
+            onClick={logout}
+            className="float-center"
+            icon={<LogoutOutlined />}
           >
             Logout
-          </Item>   
+          </Item>
 
           <Item
             onClick={(e) => setCurrent(e.key)}
-            icon={<CommentOutlined />} className="float-center"
+            icon={<SketchOutlined/>}
+            className="float-center"
           >
-            <Link href="https://bugchat.netlify.app/">
-              <a target="_blank">Messenger</a>
+            <Link href="https://codeverse-network-site.herokuapp.com/login">
+              <a target="_blank">Refactor</a>
             </Link>
-          </Item>   
+          </Item>
+          </ItemGroup>
           
         </SubMenu>
       )}
-
-     
     </Menu>
   );
 };
 
 export default TopNav;
-
