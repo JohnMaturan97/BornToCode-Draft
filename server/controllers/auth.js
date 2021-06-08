@@ -24,7 +24,8 @@ export const register = async (req, res) => {
         .send("Password Required with min of 6 characters long");
     }
     let userExist = await User.findOne({ email }).exec();
-    if (userExist) return res.status(400).send("Email was already taken, Try Again!");
+    if (userExist)
+      return res.status(400).send("Email was already taken, Try Again!");
 
     // hash password
     const hashedPassword = await hashPassword(password);
@@ -85,13 +86,47 @@ export const currentUser = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select("-password").exec();
     console.log("CURRENT_USER", user);
-    return res.json({ok: true});
+    return res.json({ ok: true });
   } catch (err) {
     console.log(err);
   }
 };
 
 export const sendTestEmail = async (req, res) => {
-  console.log("send email using SES")
-  res.json({ok: true});
-}
+  // console.log("send email using SES")
+  // res.json({ok: true});
+  const params = {
+    Source: process.env.EMAIL_FROM,
+    Destination: {
+      ToAddresses: ["JohnMaturan07@gmail.com"],
+    },
+    ReplyToAddresses: [process.env.EMAIL_FROM],
+    Message: {
+      Body: {
+        Html: {
+          Charset: "utf-8",
+          Data: `
+            <html>
+            <h1>Reset Password Link</h1>
+            <p>Please use the following link to reset your password</p>
+            </html>
+          `
+        },
+      },
+      Subject: {
+        Charset: "utf-8",
+          Data:" Password Reset Link",
+      },
+    },
+  };
+
+  const emailSent = SES.sendEmail(params).promise();
+
+  emailSent.then((data) => {
+    console.log(data)
+    res.json({ok: true});
+  })
+  .catch ((err) => {
+    console.log(err);
+  });
+};
